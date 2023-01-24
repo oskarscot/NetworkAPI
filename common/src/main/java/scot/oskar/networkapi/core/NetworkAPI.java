@@ -16,7 +16,6 @@ import scot.oskar.networkapi.core.database.serializer.Serializer;
 import scot.oskar.networkapi.core.database.serializer.SerializerService;
 import scot.oskar.networkapi.core.database.serializer.impl.UUIDSerializer;
 import scot.oskar.networkapi.core.module.GsonModule;
-import scot.oskar.networkapi.core.module.LoggerModule;
 import scot.oskar.networkapi.core.module.OkaeriConfigModule;
 import scot.oskar.networkapi.core.module.SerializerModule;
 
@@ -66,7 +65,7 @@ public class NetworkAPI implements Module {
     return this;
   }
 
-  public <T> void registerSerializer(Class<T> type, Serializer<T> serializer) {
+  public <T> void registerDatabaseSerializer(Class<T> type, Serializer<T> serializer) {
     Objects.requireNonNull(serializerService, "Serializer service is not initialized");
     if(serializerService.getSerializer(type) != null) {
       this.logger.warning("Serializer for type " + type.getSimpleName() + " already exists");
@@ -87,7 +86,7 @@ public class NetworkAPI implements Module {
     this.gson = injector.getInstance(Gson.class);
 
     // Register default serializers
-    registerSerializer(UUID.class, new UUIDSerializer());
+    registerDatabaseSerializer(UUID.class, new UUIDSerializer());
     return this;
   }
 }

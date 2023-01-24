@@ -9,6 +9,7 @@ import scot.oskar.networkapi.core.NetworkAPI;
 import data.TestSerializableObject;
 import data.TestUser;
 import scot.oskar.networkapi.core.database.DatabaseService;
+import scot.oskar.networkapi.core.database.provider.PostgreSQLProvider;
 import scot.oskar.networkapi.core.database.serializer.impl.ObjectToJsonSerializer;
 
 public class ORMTest {
@@ -19,8 +20,8 @@ public class ORMTest {
 
   @BeforeAll
   public static void setup() {
-    networkAPI.registerSerializer(GameData.class, new ObjectToJsonSerializer<>());
-    networkAPI.registerSerializer(TestSerializableObject.class, new ObjectToJsonSerializer<>());
+    networkAPI.registerDatabaseSerializer(GameData.class, new ObjectToJsonSerializer<>());
+    networkAPI.registerDatabaseSerializer(TestSerializableObject.class, new ObjectToJsonSerializer<>());
   }
 
   @AfterEach
