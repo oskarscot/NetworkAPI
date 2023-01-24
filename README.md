@@ -25,7 +25,8 @@ You can get started with NetworkAPI by getting the instance of the NetworkAPI cl
 Or using the builder:
 ```java
   final NetworkAPI networkAPI = NetworkAPI.builder()
-    .setDatabaseProvider(PostgreSQLProvider.class)
+    .setDatabaseProvider(PostgreSQLProvider.class) 
+    .setDatabaseProvider(CustomMySQLImplementation.class) //Custom implementaions are allowed
     .setPubSubProvider(RedisPubSubProvider.class)
     .build();
 ```
