@@ -8,15 +8,14 @@ import data.GameData;
 import scot.oskar.networkapi.core.NetworkAPI;
 import data.TestSerializableObject;
 import data.TestUser;
-import scot.oskar.networkapi.core.database.DatabaseService;
-import scot.oskar.networkapi.core.database.provider.PostgreSQLProvider;
+import scot.oskar.networkapi.core.database.DatabaseServiceImpl;
 import scot.oskar.networkapi.core.database.serializer.impl.ObjectToJsonSerializer;
 
 public class ORMTest {
 
-  final static NetworkAPI networkAPI = NetworkAPI.buildDefault();
+  final static NetworkAPI networkAPI = NetworkAPI.buildDefault(null);
 
-  final DatabaseService databaseService = networkAPI.getDatabaseService();
+  final DatabaseServiceImpl databaseService = networkAPI.getDatabaseService();
 
   @BeforeAll
   public static void setup() {
@@ -30,7 +29,7 @@ public class ORMTest {
   }
 
   @Test
-  public void testOrm() {
+  void testOrm() {
     //Arrange
     Class<TestUser> clazz = TestUser.class;
     TestUser testUser = new TestUser();

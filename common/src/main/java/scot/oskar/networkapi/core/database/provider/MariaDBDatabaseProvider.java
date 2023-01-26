@@ -1,33 +1,34 @@
 package scot.oskar.networkapi.core.database.provider;
 
 import com.google.inject.Inject;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import scot.oskar.networkapi.core.configuration.DatabaseConfiguration;
 import scot.oskar.networkapi.api.database.DatabaseProvider;
 
-public class PostgreSQLProvider implements DatabaseProvider {
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class MariaDBDatabaseProvider implements DatabaseProvider {
 
   private Connection connection;
   private final DatabaseConfiguration configuration;
 
   @Inject
-  public PostgreSQLProvider(DatabaseConfiguration configuration){
+  public MariaDBDatabaseProvider(DatabaseConfiguration configuration){
     this.configuration = configuration;
-    System.out.println("PostgreSQLProvider created: " + configuration);
+    System.out.println("MariaDBDatabaseProvider created: " + configuration);
   }
 
   @Override
   public void connect() {
     try {
       connection = DriverManager.getConnection(
-          "jdbc:postgresql://" + configuration.getHost() + ":" + configuration.getPort() + "/" + configuration.getDatabase(),
-          configuration.getUsername(),
-          configuration.getPassword()
+              "jdbc:mariadb://" + configuration.getHost() + ":" + configuration.getPort() + "/" + configuration.getDatabase(),
+              configuration.getUsername(),
+              configuration.getPassword()
       );
 
-      System.out.println("PostgreSQLProvider connected: " + connection);
+      System.out.println("MariaDBDatabaseProvider connected: " + connection);
     } catch (SQLException e) {
       e.printStackTrace();
     }

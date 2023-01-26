@@ -10,13 +10,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
-import scot.oskar.networkapi.core.database.annotation.DatabaseField;
-import scot.oskar.networkapi.core.database.annotation.Id;
-import scot.oskar.networkapi.core.database.annotation.TableName;
-import scot.oskar.networkapi.core.database.serializer.Serializer;
+
+import scot.oskar.networkapi.api.database.DatabaseProvider;
+import scot.oskar.networkapi.api.database.DatabaseService;
+import scot.oskar.networkapi.api.database.annotation.DatabaseField;
+import scot.oskar.networkapi.api.database.annotation.Id;
+import scot.oskar.networkapi.api.database.annotation.TableName;
+import scot.oskar.networkapi.api.serializer.Serializer;
 import scot.oskar.networkapi.core.database.serializer.SerializerService;
 
-public class DatabaseService {
+public class DatabaseServiceImpl implements DatabaseService {
 
   private final DatabaseProvider databaseProvider;
   private final SerializerService serializerService;
@@ -29,7 +32,7 @@ public class DatabaseService {
   private final String deleteFromFormat = "delete from %s;";
 
   @Inject
-  public DatabaseService(DatabaseProvider provider, SerializerService serializerService) {
+  public DatabaseServiceImpl(DatabaseProvider provider, SerializerService serializerService) {
     this.databaseProvider = provider;
     this.serializerService = serializerService;
     provider.connect();

@@ -1,7 +1,7 @@
 package scot.oskar.networkapi.core.database.serializer.impl;
 
 import com.google.gson.Gson;
-import scot.oskar.networkapi.core.database.serializer.Serializer;
+import scot.oskar.networkapi.api.serializer.Serializer;
 
 public class ObjectToJsonSerializer<T> implements Serializer<T> {
 

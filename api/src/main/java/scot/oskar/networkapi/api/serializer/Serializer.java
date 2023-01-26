@@ -1,4 +1,4 @@
-package scot.oskar.networkapi.core.database.serializer;
+package scot.oskar.networkapi.api.serializer;
 
 public interface Serializer<T> {
 

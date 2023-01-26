@@ -18,7 +18,7 @@ public class OkaeriConfigModule<T extends OkaeriConfig> extends AbstractModule {
     if(path == null) {
       this.configuration = ConfigManager.create(this.configurationClazz);
     } else {
-      this.configuration = ConfigManager.create(configurationClazz, (it) -> {
+      this.configuration = ConfigManager.create(configurationClazz, it -> {
         it.withBindFile(path.toFile());
         it.withConfigurer(new JsonGsonConfigurer());
         it.saveDefaults();

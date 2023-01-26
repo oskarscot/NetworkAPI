@@ -1,7 +1,7 @@
 package scot.oskar.networkapi.core.database.serializer.impl;
 
 import java.util.UUID;
-import scot.oskar.networkapi.core.database.serializer.Serializer;
+import scot.oskar.networkapi.api.serializer.Serializer;
 
 public class UUIDSerializer implements Serializer<UUID> {
 
