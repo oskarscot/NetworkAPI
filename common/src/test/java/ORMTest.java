@@ -9,12 +9,12 @@ import scot.oskar.networkapi.core.NetworkAPI;
 import data.TestSerializableObject;
 import data.TestUser;
 import scot.oskar.networkapi.core.database.DatabaseServiceImpl;
+import scot.oskar.networkapi.core.database.DatabaseType;
 import scot.oskar.networkapi.core.database.serializer.impl.ObjectToJsonSerializer;
 
 public class ORMTest {
 
-  final static NetworkAPI networkAPI = NetworkAPI.buildDefault(null);
-
+  final static NetworkAPI networkAPI = NetworkAPI.buildDefault();
   final DatabaseServiceImpl databaseService = networkAPI.getDatabaseService();
 
   @BeforeAll

@@ -7,16 +7,21 @@ import scot.oskar.networkapi.api.database.DatabaseProvider;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 public class MariaDBDatabaseProvider implements DatabaseProvider {
 
   private Connection connection;
   private final DatabaseConfiguration configuration;
+  private final Logger logger;
 
   @Inject
-  public MariaDBDatabaseProvider(DatabaseConfiguration configuration){
+  public MariaDBDatabaseProvider(DatabaseConfiguration configuration, Logger logger){
     this.configuration = configuration;
-    System.out.println("MariaDBDatabaseProvider created: " + configuration);
+    this.logger = logger;
+    if (!configuration.isDisableLogger()) {
+      System.out.println("MariaDBDatabaseProvider created: " + configuration);
+    }
   }
 
   @Override
@@ -27,8 +32,9 @@ public class MariaDBDatabaseProvider implements DatabaseProvider {
               configuration.getUsername(),
               configuration.getPassword()
       );
-
-      System.out.println("MariaDBDatabaseProvider connected: " + connection);
+      if (!configuration.isDisableLogger()) {
+        logger.info("MariaDBDatabaseProvider connected: " + connection);
+      }
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -41,7 +47,7 @@ public class MariaDBDatabaseProvider implements DatabaseProvider {
         connection.close();
       }
     } catch (SQLException e) {
-      System.err.println("Failed to close connection to the database.");
+      logger.severe("Failed to close connection to the database.");
       e.printStackTrace();
     }
   }

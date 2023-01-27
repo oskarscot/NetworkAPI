@@ -1,19 +1,21 @@
 plugins {
     id 'java'
+    id 'maven-publish'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+group 'scot.oskar.networkapi'
+version '1.0.0'
 
 repositories {
     mavenCentral()
+    maven { url "https://storehouse.okaeri.eu/repository/maven-public/" }
+    maven { url = uri("https://repo.papermc.io/repository/maven-public/") }
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation(project(":common"))
+    implementation(project(":api"))
+    compileOnly("org.github.paperspigot:paperspigot-api:1.8.8-R0.1-SNAPSHOT")
 }
 
-test {
-    useJUnitPlatform()
-}
