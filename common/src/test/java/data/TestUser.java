@@ -14,10 +14,10 @@ public class TestUser {
   private int id;
 
   @DatabaseField(columnName = "name", columnType = "TEXT")
-  private String name;
+  public String name;
 
   @DatabaseField(columnName = "uuid", columnType = "TEXT")
-  private UUID uuid;
+  public UUID uuid;
 
   @DatabaseField(columnName = "email", columnType = "TEXT")
   private String email;

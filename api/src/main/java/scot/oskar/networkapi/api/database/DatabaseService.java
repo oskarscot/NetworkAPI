@@ -12,5 +12,6 @@ public interface DatabaseService {
     void dropTable(Class<?> clazz);
 
     void deleteAll(Class<?> clazz);
+    <T> void updateEntity(T entity, String columnName, Object column);
 
 }

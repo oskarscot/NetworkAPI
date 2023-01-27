@@ -19,6 +19,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 
 public class DatabaseServiceImpl implements DatabaseService {
@@ -30,6 +32,7 @@ public class DatabaseServiceImpl implements DatabaseService {
 
     private final String createTableFormat = "create table if not exists %s (%s);";
     private final String insertFormat = "insert into %s (%s) values ('%s');";
+    private final String updateFormat = "update %s set %s where %s = '%s';";
     private final String selectFormat = "select %s from %s;";
     private final String deleteFormat = "delete from %s where %s = %s;";
     private final String dropFormat = "drop table %s;";
@@ -79,6 +82,58 @@ public class DatabaseServiceImpl implements DatabaseService {
         String query = String.format(insertFormat, tableName, patternColumn, patternValue);
         if (!databaseConfiguration.isDisableLogger()) {
             logger.info("Query: " + query);
+        }
+        Future.run(() -> {
+                    Statement statement = databaseProvider.getConnection().createStatement();
+
+                    statement.executeUpdate(query);
+                    statement.close();
+                })
+                .onFailure(Throwable::printStackTrace);
+
+    }
+
+    public <T> void updateEntity(T entity, String columnName, Object column) {
+        final Class<?> clazz = entity.getClass();
+
+        final List<DatabaseField> typedFieldList = List.ofAll(Arrays.stream(clazz.getDeclaredFields()))
+                .filter(field -> field.isAnnotationPresent(DatabaseField.class) && !field.isAnnotationPresent(Id.class))
+                .map(field -> field.getDeclaredAnnotation(DatabaseField.class));
+
+
+
+        String patternValue = typedFieldList
+                .map(databaseField -> Try.of(() -> clazz.getDeclaredField(databaseField.columnName()))
+                        .peek(f -> f.setAccessible(true))
+                        .map(Function1.of(f -> Try.of(() -> {
+                            final Serializer<?> serializer = serializerService.getSerializer(f.getType());
+                            if (serializer != null) {
+                                return databaseField.columnName() + " = '" + serializer.serialize(f.get(entity)) + "'";
+                            } else {
+                                return databaseField.columnName() + " = '" + f.get(entity).toString() + "'";
+                            }
+                        }).getOrElse("null")))
+                        .getOrElse("null"))
+                .mkString(", ");
+
+
+        final String tableName = clazz.getAnnotation(TableName.class).value();
+        if (tableName == null || tableName.isEmpty()) {
+            throw new IllegalArgumentException("TableName annotation is not present on class " + clazz.getName());
+        }
+        String obj = Try.of(() -> {
+            final Serializer<?> serializer = serializerService.getSerializer(column.getClass());
+            if (serializer != null) {
+                return serializer.serialize(column);
+            } else {
+                return column.toString();
+            }
+        }).get();
+
+        String query = String.format(updateFormat, tableName, patternValue, columnName, obj);
+        logger.info("Query: " + query);
+        if (!databaseConfiguration.isDisableLogger()) {
+
         }
         Future.run(() -> {
                     Statement statement = databaseProvider.getConnection().createStatement();
