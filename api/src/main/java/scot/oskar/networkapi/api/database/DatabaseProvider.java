@@ -1,4 +1,4 @@
-package scot.oskar.networkapi.core.database;
+package scot.oskar.networkapi.api.database;
 
 import java.sql.Connection;
 

@@ -1,5 +1,7 @@
 package scot.oskar.networkapi.core.database.serializer;
 
+import scot.oskar.networkapi.api.serializer.Serializer;
+
 import java.util.HashMap;
 import java.util.Map;
 

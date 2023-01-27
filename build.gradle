@@ -1,9 +1,45 @@
 group 'scot.oskar.networkapi'
 version '1.0.0'
 
+
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'maven-publish'
 
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                pom {
+                    name = 'NetworkAPI'
+                    description = 'NetworkAPI is an API designed to ease the development and communication of scalable Minecraft networks.'
+                    url = 'https://github.com/oskarscot/NetworkAPI'
+                    developers {
+                        developer {
+                            id = 'robalmeister'
+                            name = 'Filip'
+                            email = 'robalmeister@gmail.com'
+                        }
+                    }
+                    scm {
+                        connection = 'scm:git:git://github.com/oskarscot/NetworkAPI.git'
+                        developerConnection = 'scm:git:ssh://github.com/oskarscot/NetworkAPI.git'
+                        url = 'https://github.com/oskarscot/NetworkAPI'
+                    }
+                }
+            }
+
+        }
+        publications {
+            gpr(MavenPublication) {
+                from(components.java)
+            }
+        }
+    }
+
+
 }

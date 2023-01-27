@@ -1,4 +1,4 @@
-package scot.oskar.networkapi.core.database.annotation;
+package scot.oskar.networkapi.api.database.annotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

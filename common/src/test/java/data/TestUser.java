@@ -2,9 +2,9 @@ package data;
 
 
 import java.util.UUID;
-import scot.oskar.networkapi.core.database.annotation.DatabaseField;
-import scot.oskar.networkapi.core.database.annotation.Id;
-import scot.oskar.networkapi.core.database.annotation.TableName;
+import scot.oskar.networkapi.api.database.annotation.DatabaseField;
+import scot.oskar.networkapi.api.database.annotation.Id;
+import scot.oskar.networkapi.api.database.annotation.TableName;
 
 @TableName("dupagang")
 public class TestUser {
@@ -14,10 +14,10 @@ public class TestUser {
   private int id;
 
   @DatabaseField(columnName = "name", columnType = "TEXT")
-  private String name;
+  public String name;
 
   @DatabaseField(columnName = "uuid", columnType = "TEXT")
-  private UUID uuid;
+  public UUID uuid;
 
   @DatabaseField(columnName = "email", columnType = "TEXT")
   private String email;

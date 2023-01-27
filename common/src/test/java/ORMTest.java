@@ -1,6 +1,8 @@
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -8,15 +10,14 @@ import data.GameData;
 import scot.oskar.networkapi.core.NetworkAPI;
 import data.TestSerializableObject;
 import data.TestUser;
-import scot.oskar.networkapi.core.database.DatabaseService;
-import scot.oskar.networkapi.core.database.provider.PostgreSQLProvider;
+import scot.oskar.networkapi.core.database.DatabaseServiceImpl;
+import scot.oskar.networkapi.core.database.DatabaseType;
 import scot.oskar.networkapi.core.database.serializer.impl.ObjectToJsonSerializer;
 
 public class ORMTest {
 
   final static NetworkAPI networkAPI = NetworkAPI.buildDefault();
-
-  final DatabaseService databaseService = networkAPI.getDatabaseService();
+  final DatabaseServiceImpl databaseService = networkAPI.getDatabaseService();
 
   @BeforeAll
   public static void setup() {
@@ -26,11 +27,11 @@ public class ORMTest {
 
   @AfterEach
   public void teardown() {
-    databaseService.deleteAll(TestUser.class);
+    //databaseService.deleteAll(TestUser.class);
   }
 
   @Test
-  public void testOrm() {
+  void testOrm() {
     //Arrange
     Class<TestUser> clazz = TestUser.class;
     TestUser testUser = new TestUser();
@@ -40,10 +41,14 @@ public class ORMTest {
     databaseService.createTable(clazz);
     databaseService.createEntity(testUser);
 
+    testUser.name = "tsadad";
+
+    databaseService.updateEntity(testUser, "uuid", testUser.uuid);
+
     for (int i = 0; i < numEntities; i++) {
       databaseService.createEntity(new TestUser());
     }
-    List<TestUser> allEntitiesAfterInserting = databaseService.getAll(clazz);
+    List<TestUser> allEntitiesAfterInserting = databaseService.getAll(clazz).stream().filter(testUser1 -> testUser1.name.equalsIgnoreCase("tsadad")).collect(Collectors.toList());
 
     allEntitiesAfterInserting.forEach(System.out::println);
 

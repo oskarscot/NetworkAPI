@@ -1,8 +1,9 @@
 plugins {
     id 'java-library'
+    id 'maven-publish'
 }
 
-group 'io.github.cdfn'
+group 'scot.oskar.networkapi'
 version '1.0.0'
 
 repositories {
@@ -15,9 +16,12 @@ dependencies {
     api 'eu.okaeri:okaeri-configs-json-gson:5.0.0-beta.2'
     api 'eu.okaeri:okaeri-configs-validator-okaeri:5.0.0-beta.2'
     api 'com.google.inject:guice:5.0.1'
+    implementation project(":api")
     implementation "io.vavr:vavr:0.10.4"
     implementation 'org.jetbrains:annotations:23.0.0'
     implementation 'org.postgresql:postgresql:42.5.1'
+    implementation 'com.mysql:mysql-connector-j:8.0.32'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:3.1.2'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-runner:1.9.1'
 }
