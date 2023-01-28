@@ -1,0 +1,5 @@
+name: NetworkAPI
+main: scot.oskar.networkapi.bungee.NetworkAPIPlugin
+version: 1.0.0
+website: "https://github.com/oskarscot/NetworkAPI"
+authors: [oskarscot, robalmeister]

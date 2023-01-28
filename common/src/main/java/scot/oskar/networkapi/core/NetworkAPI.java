@@ -57,6 +57,9 @@ public class NetworkAPI implements Module, Network {
     public SerializerService getSerializerService() {
         return serializerService;
     }
+    public DatabaseProvider getDatabaseProvider() {
+        return injector.getInstance(DatabaseProvider.class);
+    }
 
     public Gson getGson() {
         return gson;
@@ -70,6 +73,12 @@ public class NetworkAPI implements Module, Network {
         this.databaseProvider = type.getDatabaseProvider();
         return this;
     }
+
+    public NetworkAPI setDatabaseProvider(Class<? extends DatabaseProvider> clazz) {
+        this.databaseProvider = clazz;
+        return this;
+    }
+
 
     @Override
     public <T> void registerDatabaseSerializer(Class<T> type, Serializer<T> serializer) {
