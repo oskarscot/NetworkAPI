@@ -8,6 +8,7 @@ import scot.oskar.networkapi.paper.serializer.ItemStackSerializer;
 import java.io.File;
 
 public class NetworkAPIPlugin extends JavaPlugin {
+
     private NetworkAPI networkAPI;
     @Override
     public void onEnable() {
@@ -19,4 +20,5 @@ public class NetworkAPIPlugin extends JavaPlugin {
     public void onDisable() {
         networkAPI.getDatabaseProvider().disconnect();
     }
+
 }
